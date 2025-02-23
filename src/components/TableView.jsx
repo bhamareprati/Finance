@@ -8,8 +8,18 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 
 const TableView = ({ filters }) => {
-  const [expenses, setExpenses] = useState([]);
   const navigate = useNavigate();
+
+  // Default entries if API doesn't return data
+  const defaultEntries = [
+    { _id: "1", date: "2025-02-01", title: "Salary", amount: 5000, type: "Income", category: "Income" },
+    { _id: "2", date: "2025-02-05", title: "Groceries", amount: 150, type: "Expense", category: "Food" },
+    { _id: "3", date: "2025-02-10", title: "Transport", amount: 50, type: "Expense", category: "Transport" },
+    { _id: "4", date: "2025-02-12", title: "Freelance", amount: 1200, type: "Income", category: "Income" },
+    { _id: "5", date: "2025-02-15", title: "Movie", amount: 100, type: "Expense", category: "Entertainment" }
+  ];
+  
+  const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
     fetchExpenses();
@@ -18,9 +28,10 @@ const TableView = ({ filters }) => {
   const fetchExpenses = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/expenses", { params: filters });
-      setExpenses(response.data);
+      setExpenses(response.data.length > 0 ? response.data : defaultEntries); // Use API data or default entries
     } catch (error) {
       console.error("Error fetching expenses:", error);
+      setExpenses(defaultEntries); // Fallback to default entries on error
     }
   };
 

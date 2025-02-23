@@ -3,6 +3,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import TableView from "./TableView";
 import { Card, CardBody, CardTitle } from "reactstrap";
 import "./style.css";
 

@@ -8,6 +8,7 @@ import "./components/style.css";
 // import "./components/home.css"
 
 
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ root.render(
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+       
       </Routes>
     </Router>
   </React.StrictMode>

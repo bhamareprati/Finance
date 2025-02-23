@@ -5,6 +5,15 @@ import { Modal, Button, Form } from "react-bootstrap";
 import "./style.css";
 
 const AddExpenseModal = ({ show, handleClose }) => {
+
+  const defaultEntries = [
+    { title: "Salary", amount: 5000, category: "Income", type: "Income", date: "2025-02-01", description: "Monthly salary" },
+    { title: "Groceries", amount: 150, category: "Food", type: "Expense", date: "2025-02-05", description: "Weekly groceries" },
+    { title: "Transport", amount: 50, category: "Transport", type: "Expense", date: "2025-02-10", description: "Bus fare" },
+    { title: "Freelance", amount: 1200, category: "Income", type: "Income", date: "2025-02-12", description: "Freelance project payment" },
+    { title: "Movie", amount: 100, category: "Entertainment", type: "Expense", date: "2025-02-15", description: "Cinema ticket" }
+  ];
+  
   const [expense, setExpense] = useState({
     title: "",
     amount: "",

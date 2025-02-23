@@ -42,10 +42,10 @@ const Home = () => {
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">
           <Nav className="custom-nav"> 
             <Nav.Link onClick={() => navigate("/")}><HouseDoor className="me-2"/> Dashboard</Nav.Link>
-            <Nav.Link onClick={() => navigate("/transactions")}><ListCheck className="me-2"/> Transactions</Nav.Link>
+            {/* <Nav.Link onClick={() => navigate("/transactions")}><ListCheck className="me-2"/> Transactions</Nav.Link>
             <Nav.Link onClick={() => navigate("/reports")}><BarChart className="me-2"/> Reports</Nav.Link>
             <Nav.Link onClick={() => navigate("/budgets")}><Wallet2 className="me-2"/> Budgets</Nav.Link>
-            <Nav.Link onClick={() => navigate("/categories")}><Tag className="me-2"/> Categories</Nav.Link>
+            <Nav.Link onClick={() => navigate("/categories")}><Tag className="me-2"/> Categories</Nav.Link> */}
           </Nav>
           <Button variant="danger" className="ms-3 d-flex align-items-center" onClick={handleLogout}>
             <FaSignOutAlt className="me-2" /> Logout
