@@ -13,11 +13,12 @@ import TableView from "./TableView";
 import GraphView from "./GraphView";
 import AddExpenseModal from "./AddExpenseModal";
 
+
 // import "./home.css"
 
 const Home = () => {
   const navigate = useNavigate();
-  const [viewMode, setViewMode] = useState("table");
+  const [viewMode, setViewMode] = useState("graph");
   const [filters, setFilters] = useState({ frequency: "Last Week", type: "All" });
   const [showModal, setShowModal] = useState(false);
 
@@ -41,10 +42,10 @@ const Home = () => {
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">
           <Nav className="custom-nav"> 
-            <Nav.Link onClick={() => navigate("/")}><HouseDoor className="me-2"/> Dashboard</Nav.Link>
-            {/* <Nav.Link onClick={() => navigate("/transactions")}><ListCheck className="me-2"/> Transactions</Nav.Link>
+            <Nav.Link onClick={() => navigate("/home")}><HouseDoor className="me-2"/> Home</Nav.Link>
+             <Nav.Link onClick={() => navigate("/Transaction")}><ListCheck className="me-2"/> Transactions</Nav.Link>
             <Nav.Link onClick={() => navigate("/reports")}><BarChart className="me-2"/> Reports</Nav.Link>
-            <Nav.Link onClick={() => navigate("/budgets")}><Wallet2 className="me-2"/> Budgets</Nav.Link>
+            {/*<Nav.Link onClick={() => navigate("/budgets")}><Wallet2 className="me-2"/> Budgets</Nav.Link>
             <Nav.Link onClick={() => navigate("/categories")}><Tag className="me-2"/> Categories</Nav.Link> */}
           </Nav>
           <Button variant="danger" className="ms-3 d-flex align-items-center" onClick={handleLogout}>
@@ -53,10 +54,8 @@ const Home = () => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-
-
-      {/* Filters & View Mode */}
-      {/* Filters & View Mode */}
+    <p class="finance-quote">"Money grows when you manage it well."</p>
+    
 <div 
   className="d-flex justify-content-center align-items-center flex-wrap mt-4 gap-3"
   
@@ -91,17 +90,18 @@ const Home = () => {
           Reset Filter
         </button>
         <button
-          className={`btn ${viewMode === "table" ? "btn-primary" : "btn-light"} mt-4`}
-          onClick={() => setViewMode("table")}
-        >
-          <FaTable size={20} />
-        </button>
-        <button
           className={`btn ${viewMode === "graph" ? "btn-primary" : "btn-light"} mt-4`}
           onClick={() => setViewMode("graph")}
         >
           <FaChartBar size={20} />
         </button>
+        <button
+          className={`btn ${viewMode === "table" ? "btn-primary" : "btn-light"} mt-4`}
+          onClick={() => setViewMode("table")}
+        >
+          <FaTable size={20} />
+        </button>
+        
       </div>
 
       {/* Add New Expense */}
@@ -116,7 +116,9 @@ const Home = () => {
 
       {/* Conditional Rendering of Table or Graph */}
       <div className="container mt-3">
-        {viewMode === "table" ? <TableView filters={filters} /> : <GraphView filters={filters} />}
+        {/* {viewMode === "table" ? <TableView filters={filters} /> : <GraphView filters={filters} />} */}
+        {viewMode === "graph" ? <GraphView filters={filters} /> : <TableView filters={filters} />}
+        
       </div>
     </div>
   );

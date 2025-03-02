@@ -53,7 +53,7 @@ const TableView = ({ filters }) => {
           <th>Amount</th>
           <th>Type</th>
           <th>Category</th>
-          <th>Action</th>
+    
         </tr>
       </thead>
       <tbody>
@@ -61,17 +61,9 @@ const TableView = ({ filters }) => {
           <tr key={expense._id}>
             <td>{new Date(expense.date).toLocaleDateString()}</td>
             <td>{expense.title}</td>
-            <td>${expense.amount}</td>
+            <td>Rs.{expense.amount}</td>
             <td>{expense.type}</td>
             <td>{expense.category}</td>
-            <td>
-              <button className="btn btn-warning btn-sm mx-1" onClick={() => navigate(`/edit-expense/${expense._id}`)}>
-                <FaEdit />
-              </button>
-              <button className="btn btn-danger btn-sm" onClick={() => handleDelete(expense._id)}>
-                <FaTrash />
-              </button>
-            </td>
           </tr>
         ))}
       </tbody>

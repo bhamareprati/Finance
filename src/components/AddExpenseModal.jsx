@@ -1,91 +1,106 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
+
+
 import React, { useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
-import "./style.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { addExpense } from "../services/api"; // Ensure this function exists in api.js
 
 const AddExpenseModal = ({ show, handleClose }) => {
-
-  const defaultEntries = [
-    { title: "Salary", amount: 5000, category: "Income", type: "Income", date: "2025-02-01", description: "Monthly salary" },
-    { title: "Groceries", amount: 150, category: "Food", type: "Expense", date: "2025-02-05", description: "Weekly groceries" },
-    { title: "Transport", amount: 50, category: "Transport", type: "Expense", date: "2025-02-10", description: "Bus fare" },
-    { title: "Freelance", amount: 1200, category: "Income", type: "Income", date: "2025-02-12", description: "Freelance project payment" },
-    { title: "Movie", amount: 100, category: "Entertainment", type: "Expense", date: "2025-02-15", description: "Cinema ticket" }
-  ];
-  
   const [expense, setExpense] = useState({
     title: "",
     amount: "",
     category: "",
-    type: "Expense",
+    type: "expense", // ✅ Default to lowercase to match schema
     date: "",
     description: "",
   });
+
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setExpense({ ...expense, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Expense Added:", expense);
-    handleClose(); 
+    try {
+      const formattedExpense = {
+        ...expense,
+        amount: parseFloat(expense.amount), // ✅ Ensure amount is a number
+        type: expense.type.toLowerCase(), // ✅ Convert type to lowercase
+      };
+      const data = await addExpense(formattedExpense);
+      console.log("Expense Added:", data);
+      alert("Transaction Added Successfully!");
+      setExpense({ title: "", amount: "", category: "", type: "expense", date: "", description: "" }); // ✅ Reset form
+      handleClose();
+    } catch (err) {
+      setError(err.error || "Failed to add expense");
+    }
   };
 
   return (
-    <Modal show={show} onHide={handleClose} centered>
-      <Modal.Header closeButton>
-        <Modal.Title>Add New Expense</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Label>Title</Form.Label>
-            <Form.Control type="text" name="title" value={expense.title} onChange={handleChange} required />
-          </Form.Group>
+    <>
+      {error && <p className="text-danger">{error}</p>}
+      {show && <div className="modal-backdrop fade show"></div>}
+      <div className={`modal ${show ? "d-block" : "d-none"}`} tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title fw-bold">Add New Expense</h5>
+              <button type="button" className="btn-close" onClick={handleClose}></button>
+            </div>
+            <div className="modal-body fw-bold">
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <label className="form-label">Title</label>
+                  <input type="text" name="title" className="form-control" value={expense.title} onChange={handleChange} required />
+                </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Amount</Form.Label>
-            <Form.Control type="number" name="amount" value={expense.amount} onChange={handleChange} required />
-          </Form.Group>
+                <div className="mb-3">
+                  <label className="form-label">Amount</label>
+                  <input type="number" name="amount" className="form-control" value={expense.amount} onChange={handleChange} required />
+                </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Category</Form.Label>
-            <Form.Select name="category" value={expense.category} onChange={handleChange} required>
-              <option value="">Select Category</option>
-              <option>Food</option>
-              <option>Transport</option>
-              <option>Entertainment</option>
-              <option>Health</option>
-              <option>Other</option>
-            </Form.Select>
-          </Form.Group>
+                <div className="mb-3">
+                  <label className="form-label">Category</label>
+                  <select name="category" className="form-select" value={expense.category} onChange={handleChange} required>
+                    <option value="">Select Category</option>
+                    <option>Food</option>
+                    <option>Transport</option>
+                    <option>Entertainment</option>
+                    <option>Health</option>
+                    <option>Other</option>
+                  </select>
+                </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Type</Form.Label>
-            <Form.Select name="type" value={expense.type} onChange={handleChange}>
-              <option>Income</option>
-              <option>Expense</option>
-            </Form.Select>
-          </Form.Group>
+                <div className="mb-3">
+                  <label className="form-label">Type</label>
+                  <select name="type" className="form-select" value={expense.type} onChange={handleChange}>
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                  </select>
+                </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Date</Form.Label>
-            <Form.Control type="date" name="date" value={expense.date} onChange={handleChange} required />
-          </Form.Group>
+                <div className="mb-3">
+                  <label className="form-label">Date</label>
+                  <input type="date" name="date" className="form-control" value={expense.date} onChange={handleChange} required />
+                </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Description</Form.Label>
-            <Form.Control as="textarea" name="description" rows={3} value={expense.description} onChange={handleChange} />
-          </Form.Group>
+                <div className="mb-3">
+                  <label className="form-label">Description</label>
+                  <textarea name="description" className="form-control" rows="3" value={expense.description} onChange={handleChange}></textarea>
+                </div>
 
-          <Button variant="success" type="submit">
-            Add Expense
-          </Button>
-        </Form>
-      </Modal.Body>
-    </Modal>
+                <div className="d-flex justify-content-between">
+                  <button type="submit" className="btn btn-success">Add Expense</button>
+                  <button type="button" className="btn btn-secondary" onClick={handleClose}>Close</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

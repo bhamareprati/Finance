@@ -1,58 +1,55 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState } from "react";
-import axios from "axios";
+import { Container, Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
+import { registerUser } from "../services/api";
 
 const Register = () => {
-  const [userData, setUserData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    setUserData({ ...userData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/register", userData);
-      alert("Registration Successful! Please Login.");
-      navigate("/login"); // Redirect to login page
-    } catch (error) {
-      alert("Registration Failed. Try Again.");
+      await registerUser(formData);
+      navigate("/login");
+    } catch (err) {
+      setError(err.message);
     }
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card p-4 shadow-lg" style={{ maxWidth: "400px", width: "100%" }}>
-        <h3 className="text-center mb-4 text-primary">Register</h3>
-        <form onSubmit={handleRegister}>
-          <div className="mb-3">
-            <label className="form-label">Full Name</label>
-            <input type="text" className="form-control" name="name" value={userData.name} onChange={handleChange} required />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Email Address</label>
-            <input type="email" className="form-control" name="email" value={userData.email} onChange={handleChange} required />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Password</label>
-            <input type="password" className="form-control" name="password" value={userData.password} onChange={handleChange} required />
-          </div>
-          <button type="submit" className="btn btn-primary w-100">Register</button>
-        </form>
-        <p className="mt-3 text-center">
-          Already have an account? <a href="/login" className="text-primary">Login</a>
-        </p>
-      </div>
-    </div>
+    <Container className="mt-4">
+      <h2 className="text-center text-primary">Register</h2>
+      {error && <Alert variant="danger">{error}</Alert>}
+      <Form onSubmit={handleRegister} className="p-4 shadow rounded bg-light">
+        <Form.Group className="mb-3">
+          <Form.Label>Name</Form.Label>
+          <Form.Control type="text" name="name" value={formData.name} onChange={handleChange} required />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Email</Form.Label>
+          <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} required />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Password</Form.Label>
+          <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} required />
+        </Form.Group>
+        <Button variant="primary" type="submit">Register</Button>
+      </Form>
+      <p className="mt-3 text-center">
+         Already have an account? <a href="/login" className="text-primary">Login</a>
+       </p>
+    </Container>
   );
 };
 
 export default Register;
+
