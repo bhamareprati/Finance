@@ -1,0 +1,113 @@
+/* 🔹 General Styles */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #ffcc00, #4caf50); /* Yellow to Green */
+    font-family: Arial, sans-serif;
+}
+
+/* 🔹 Center Auth Pages */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+/* 🔹 Form Card */
+.auth-card {
+    max-width: 400px;
+    width: 100%;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* 🔹 Heading */
+.auth-card h2 {
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+/* 🔹 Form Fields */
+.auth-card .form-group {
+    text-align: left;
+}
+
+.auth-card .form-label {
+    font-weight: bold;
+}
+
+.auth-card .form-control {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.auth-card .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* 🔹 Buttons */
+.auth-card .btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #007bff !important;
+    border: none !important;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3 !important;
+}
+
+/* 🔹 Alerts */
+.alert {
+    text-align: center;
+}
+
+/* 🔹 Links */
+.auth-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.auth-link a {
+    text-decoration: none;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+.finance-quote {
+    text-align: center;
+    font-size: 30px;  /* Adjust size as needed */
+    font-weight: bold;
+    color:orangered;  /* Dark gray for readability */
+    margin-top: 20px;
+}
+
+
+/* 🔹 Responsive Design */
+@media (max-width: 768px) {
+    .auth-card {
+        max-width: 350px;
+        padding: 20px;
+    }
+}
